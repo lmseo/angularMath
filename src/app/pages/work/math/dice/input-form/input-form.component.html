@@ -1,0 +1,167 @@
+<div class="row">
+  <div class="col-md-6">
+    <h1>Roll the Dice!!</h1>
+  </div>
+</div>
+<section class="roll-dice">
+    <div class="row">
+      <div class="col-lg-6">
+        <form [formGroup]="rollsForm" (ngSubmit)="onSubmit()" [ngClass]="{'was-validated': rollsForm.valid && (rollsForm.dirty || rollsForm.touched)}" novalidate >
+        <div class="form-group">
+          <label for="numberRolls">Number of Rolls</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="numberRolls"
+              formControlName="rolls"
+              class="form-control"
+              [ngClass]="{'input-alert-top':rolls.invalid}">
+            <div class="input-group-append">
+              <div
+                class="input-group-text"
+                [ngClass]="{'input-alert-top':rolls.invalid}"
+              >
+                1-1000000
+              </div>
+            </div>
+          </div>
+          <div *ngIf="(rolls.dirty || rolls.touched)">
+            <div *ngIf="(rolls.invalid); else isValid" class="alert alert-danger alert-bottom-form">
+              <div *ngIf="rolls.errors.required">
+                Number of rolls is required.
+              </div>
+              <div *ngIf="rolls.errors.minlength">
+                Number of rolls must be at least {{rolls.errors.minlength.requiredLength}} number long.
+              </div>
+              <div *ngIf="rolls.errors.min">
+                Number of rolls can be as low as {{rolls.errors.min.min}}
+              </div>
+              <div *ngIf="rolls.errors.max">
+                Number of rolls cannot be greater than {{rolls.errors.max.max}}.
+              </div>
+              <div *ngIf="rolls.errors.maxlength">
+                Number of rolls cannot be more than {{rolls.errors.maxlength.requiredLength}} digit.
+              </div>
+              <div *ngIf="rolls.errors.pattern">
+                Number of rolls has to be an integer.
+              </div>
+              <div *ngIf="rolls.errors.numberIsForbidden">
+                Using the number {{rolls.errors.numberIsForbidden.actualNumber | json}} is against the rules.
+              </div>
+            </div>
+            <ng-template #isValid>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="numberDice">Number of dice</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="numberDice"
+              formControlName="dice"
+              class="form-control"
+              [ngClass]="{'input-alert-top':dice.invalid}">
+            <div class="input-group-append">
+              <div class="input-group-text" [ngClass]="{'input-alert-top':dice.invalid}">1-50</div>
+            </div>
+          </div>
+          <div *ngIf="(dice.dirty || dice.touched)">
+            <div *ngIf="dice.invalid; else isValid"
+                 class="alert alert-danger alert-bottom-form">
+              <div *ngIf="dice.errors.required">
+                Number of dice is required.
+              </div>
+              <div *ngIf="dice.errors.minlength">
+                Number of dice must be at least {{dice.errors.minlength.requiredLength}} number long.
+              </div>
+              <div *ngIf="dice.errors.min">
+                Number of dice can be as low as {{dice.errors.min.min}}
+              </div>
+              <div *ngIf="dice.errors.max">
+                Number of dice cannot be greater than {{dice.errors.max.max}}.
+              </div>
+              <div *ngIf="dice.errors.maxlength">
+                Number of dice cannot be more than {{dice.errors.maxlength.requiredLength}} digits.
+              </div>
+              <div *ngIf="dice.errors.pattern">
+                Number of dice has to be an integer.
+              </div>
+            </div>
+            <ng-template #isValid>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="yourNumber">Your number (1-6)</label>
+          <div class="input-group">
+            <input
+              type="text"
+              id="yourNumber"
+              formControlName="yourNumber"
+              class="form-control"
+              [ngClass]="{'input-alert-top':yourNumber.invalid}"
+            >
+            <div class="input-group-append">
+              <div
+                class="input-group-text"
+                [ngClass]="{'input-alert-top':yourNumber.invalid}">
+                1-6
+              </div>
+            </div>
+          </div>
+          <div *ngIf="(yourNumber.dirty || yourNumber.touched)">
+            <div *ngIf="yourNumber.invalid; else isValid" class="alert alert-danger alert-bottom-form">
+              <div *ngIf="yourNumber.errors.required">
+                Your number is required.
+              </div>
+              <div *ngIf="yourNumber.errors.minlength">
+                Your number must be at least {{yourNumber.errors.minlength.requiredLength}} number long.
+              </div>
+              <div *ngIf="yourNumber.errors.min">
+                Your number can be as low as {{yourNumber.errors.min.min}}
+              </div>
+              <div *ngIf="yourNumber.errors.max">
+                Your number cannot be greater than {{yourNumber.errors.max.max}}.
+              </div>
+              <div *ngIf="yourNumber.errors.maxlength">
+                Your number cannot be more than {{yourNumber.errors.maxlength.requiredLength}} digit.
+              </div>
+              <div *ngIf="yourNumber.errors.pattern">
+                Your number has to be an integer.
+              </div>
+            </div>
+            <ng-template #isValid>
+              <div class="valid-feedback">
+                Looks good!
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="rollsForm.invalid || rolls.pending">Roll de Dice</button>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div *ngIf="rollsForm.valid; else formValid">
+          <hr>
+          The number of times your number <span class="badge">"{{yourNumber.value}}"</span> matches when <span class="badge">{{dice.value}}</span><span *ngIf="dice.value > 1; else oneDie"> dice are </span><ng-template #oneDie> die is </ng-template>  rolled <span class="badge">{{rolls.value}}</span> times:
+        </div>
+        <ng-template #formValid>
+          <hr>
+          <div class="alert alert-warning">Please check error messages above</div>
+        </ng-template>
+        <hr>
+        <div *ngIf="rollsForm.valid" class="alert alert-secondary">
+          Matches {{hits}} <span *ngIf="hits == 1; else hitsPlural"> time</span><ng-template #hitsPlural> times</ng-template>.
+        </div>
+      </div>
+    </div>
+</section>

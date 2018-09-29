@@ -1,0 +1,23 @@
+@import '../../../../scss/variables';
+@import '../../../../scss/mixins';
+
+// Core variables and mixins
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+// Utility classes
+@import '~bootstrap/scss/utilities';
+.math{
+  a{
+    &:hover{
+      text-decoration: none;
+    }
+  }
+  .vh-50{
+    height: 50vh;
+  }
+  .vh-25{
+    height: 25vh;
+  }
+}

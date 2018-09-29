@@ -1,0 +1,11 @@
+<div class="container mb-10">
+  <app-dice-reactive
+    (rollDie) = "onDieRolled($event)">
+  </app-dice-reactive>
+  <div class="row">
+    <app-die
+      *ngFor="let die of dice" [die]="die">
+    </app-die>
+  </div>
+</div>
+
