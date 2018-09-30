@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(6),
-          Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}'),
+          PasswordValidation.strongPassword
         ]),
       'passwordVerify': new FormControl('',
         [
@@ -37,6 +37,7 @@ export class SignupComponent implements OnInit {
         if (status) {
           if (this.passwordVerify.valid) {
             console.log(this.passwordVerify.errors);
+          }
         }
       });
   }

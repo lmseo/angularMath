@@ -28,15 +28,29 @@ export class PasswordValidation {
     }
     return null;
   }
-  public static strongPassword(control: FormControl): ValidationResult {
+  public static strongPassword(control: FormControl): ValidationErrors {
+    const hasError = {
+      hasNumberError: true,
+      hasUpperCharError: true,
+      hasLowerCharError: true,
+      hasSpecCharError: true
+    };
     const hasNumber = /\d/.test(control.value);
     const hasUpper = /[A-Z]/.test(control.value);
     const hasLower = /[a-z]/.test(control.value);
-    // console.log('Num, Upp, Low', hasNumber, hasUpper, hasLower);
-    const valid = hasNumber && hasUpper && hasLower;
-    if (!valid) {
+    const hasSpecChar = /[^a-zA-Z ]+/.test(control.value);
+    const valid = hasNumber || hasUpper || hasLower || hasSpecChar;
+    // Checking for 1 number
+    !hasNumber ? hasError.hasNumberError = true : delete hasError.hasNumberError;
+    // Checking for 1 Upper case char
+    !hasUpper ? hasError.hasUpperCharError = true : delete hasError.hasUpperCharError;
+    // Checking for 1 lower case char
+    !hasLower ? hasError.hasLowerCharError = true : delete hasError.hasLowerCharError;
+    // Checking for 1 special char
+    !hasSpecChar ? hasError.hasSpecCharError = true : delete hasError.hasSpecCharError;
+    if (valid) {
       // return what´s not valid
-      return { strong: true };
+      return hasError;
     }
     return null;
   }
