@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
+
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -12,11 +14,11 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import {AppRoutingModule} from './app-routing.module';
 import { SourceComponent } from './pages/work/source/source.component';
-import {AuthService} from './auth.service';
 import {AuthGuardService} from './auth-guard.service';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import {WorkModule} from './pages/work/work.module';
+import {AuthService} from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -34,12 +36,13 @@ import {WorkModule} from './pages/work/work.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     WorkModule,
     AppRoutingModule,
   ],
-  providers: [ AuthService, AuthGuardService ],
+  providers: [ AuthGuardService, AuthService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

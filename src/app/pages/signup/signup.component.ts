@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordValidation } from '../../shared/password-validator.directive';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -9,7 +10,8 @@ import { PasswordValidation } from '../../shared/password-validator.directive';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
-  constructor() { }
+
+  constructor( private authService: AuthService) { }
 
   ngOnInit() {
     this.signupForm = new FormGroup({
@@ -71,7 +73,9 @@ export class SignupComponent implements OnInit {
       });
   }
   onSubmit() {
-    console.log(this.signupForm);
+    const email = this.userName.value;
+    const password = this.password.value;
+    this.authService.signupUser(email, password);
   }
   get userName() {
     return this.signupForm.get('userName');
