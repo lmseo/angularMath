@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordValidation } from '../../shared/password-validator.directive';
-import {type} from 'os';
 
 @Component({
   selector: 'app-signup',
