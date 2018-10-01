@@ -13,7 +13,24 @@
                 id="username"
                 formControlName="userName"
                 autocomplete="email"
+                [ngClass]="{'is-valid': userName.valid}"
+                placeholder="your@email.com"
               >
+              <div *ngIf="((userName.dirty || userName.touched))">
+                <div *ngIf="(userName.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                  <div *ngIf="userName.errors.required">
+                    Email is required.
+                  </div>
+                  <div *ngIf="userName.errors.email">
+                    Email is not properly formatted.
+                  </div>
+                </div>
+                <ng-template #isValid>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </ng-template>
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -24,14 +41,38 @@
                 id="password"
                 formControlName="password"
                 autocomplete="new-password"
+                [ngClass]="{'is-valid': password.valid, 'input-alert-top':password.errors && (password.dirty || password.touched)}"
               >
-            </div>
-            <div *ngIf="(password.dirty || password.touched)">
-              <div *ngIf="(password.invalid); else isValid" class="alert alert-danger alert-bottom-form">
-                {{password.errors | json}}
-                <div *ngIf="password.errors.required">
-                  Password is required.
+              <div *ngIf="((password.dirty || password.touched))">
+                <div *ngIf="(password.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                  <div *ngIf="password.errors.required">
+                    Password is required.
+                  </div>
+                  <div *ngIf="password.errors.minlength">
+                    Password must be at least {{password.errors.minlength.requiredLength}} characters long.
+                    <hr [ngClass]="{'d-none': password.errors.minlength.last}">
+                  </div>
+                  <div *ngIf="password.errors.hasNumberError">
+                    Password must contain a number.
+                    <hr [ngClass]="{'d-none': password.errors.hasNumberError.last}">
+                  </div>
+                  <div *ngIf="password.errors.hasUpperCharError">
+                    Password must contain an upper case letter.
+                    <hr [ngClass]="{'d-none': password.errors.hasUpperCharError.last}">
+                  </div>
+                  <div *ngIf="password.errors.hasLowerCharError">
+                    Password must contain a lower case letter.
+                    <hr [ngClass]="{'d-none': password.errors.hasLowerCharError.last}">
+                  </div>
+                  <div *ngIf="password.errors.hasSpecCharError">
+                    Password must contain a special character (e.g, !@#$%^&).
+                  </div>
                 </div>
+                <ng-template #isValid>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </ng-template>
               </div>
             </div>
             <div class="form-group">
@@ -43,20 +84,27 @@
                 type="password"
                 formControlName="passwordVerify"
                 autocomplete="new-password"
+                [ngClass]="{'is-valid': passwordVerify.valid, 'input-alert-top':passwordVerify.errors && (passwordVerify.dirty || passwordVerify.touched)}"
               >
-            </div>
-            <div *ngIf="((passwordVerify.dirty || passwordVerify.touched))">
-              <div *ngIf="( passwordVerify.invalid); else isValid" class="alert alert-danger alert-bottom-form">
-                <div *ngIf="passwordVerify.errors.required">
-                  Verified password is required.
+              <div *ngIf="((passwordVerify.dirty || passwordVerify.touched))">
+                <div *ngIf="( passwordVerify.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                  <div *ngIf="passwordVerify.errors.required">
+                    Password verification is required.
+                  </div>
+                  <div *ngIf="passwordVerify.errors.minlength">
+                    Password must be at least {{passwordVerify.errors.minlength.requiredLength}} characters long.
+                    <hr [ngClass]="{'d-none': passwordVerify.errors.minlength.last}">
+                    {{passwordVerify.errors.minlength.last}}
+                  </div>
+                  <div *ngIf="passwordVerify.errors.passwordDontMatch">
+                    Passwords don't match
+                  </div>
                 </div>
-                <div *ngIf="passwordVerify.errors.minlength">
-                  Password must be at least {{passwordVerify.errors.minlength.requiredLength}} characters long.
-                  <hr>
-                </div>
-                <div *ngIf="passwordVerify.errors.passwordDontMatch">
-                  Passwords don't match
-                </div>
+                <ng-template #isValid>
+                  <div class="valid-feedback">
+                    Looks good!
+                  </div>
+                </ng-template>
               </div>
             </div>
             <button class="btn btn-primary" [disabled]="signupForm.invalid">Create Account</button>

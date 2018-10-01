@@ -9,3 +9,10 @@
 // Utility classes
 @import '~bootstrap/scss/utilities';
 @import "~bootstrap/scss/card";
+
+@import '../../../scss/shared/forms';
+@import '../../../scss/shared/text';
+
+.invalid-feedback, .valid-feedback{
+  display: block;
+}

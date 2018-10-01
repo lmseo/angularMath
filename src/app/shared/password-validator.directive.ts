@@ -11,20 +11,26 @@ export class PasswordValidation {
   static matchPassword (control: FormControl): ValidationErrors | null {
     const password = control.get('password');
     const passwordVerify = control.get('passwordVerify');
-    const passwordVerifyErrors = passwordVerify.errors;
-
-    if  (password && passwordVerify && (password.value !== passwordVerify.value)) {
-      if (passwordVerifyErrors) {
-        const errors = Object.assign(passwordVerifyErrors, { 'passwordDontMatch': true })
+    // password and passwordVerify has to exist and value diff
+    if (password && passwordVerify && (password.value !== passwordVerify.value)) {
+      if (passwordVerify.invalid) {
+        const errors = Object.assign(passwordVerify.errors,
+          { 'passwordDontMatch': true })
         passwordVerify.setErrors(errors);
       } else {
         passwordVerify.setErrors({ 'passwordDontMatch': true }) ;
       }
-
+    //  If passwords values are the same check if other errors present or set error to null
     } else {
-      // passwordVerify.setErrors(null );
-      // console.log(passwordVerify.errors);
-
+      if ( passwordVerify.invalid ) {
+        if (passwordVerify.errors.hasOwnProperty('passwordDontMatch')) {
+          if ( Object.keys(passwordVerify.errors).length > 1 ) {
+            delete passwordVerify.errors.passwordDontMatch;
+          } else {
+            passwordVerify.setErrors(null );
+          }
+        }
+      }
     }
     return null;
   }

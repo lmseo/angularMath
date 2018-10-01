@@ -1,3 +1,5 @@
+@import '../../../../../../scss/shared/forms';
+
 input.ng-touched.ng-invalid, input.ng-dirty.ng-invalid{
   //border:1px solid red;
 }
@@ -5,15 +7,4 @@ input.ng-touched.ng-invalid, input.ng-dirty.ng-invalid{
   //padding: 0 0 0 15px;
   text-align: left;
   width: 100px;
-}
-.invalid-feedback, .valid-feedback{
-  display: block;
-}
-.alert-bottom-form{
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-.input-alert-top{
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
