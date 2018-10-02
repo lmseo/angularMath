@@ -1,12 +1,7 @@
-/** A password have to match */
 import { FormControl, ValidationErrors} from '@angular/forms';
 import { ld } from 'lodash';
 
-export interface ValidationResult {
-  [key: string]: boolean;
-}
-
-export class PasswordValidation {
+export class FormValidatorDirective {
 
   static matchPassword (control: FormControl): ValidationErrors | null {
     const password = control.get('password');
@@ -34,6 +29,9 @@ export class PasswordValidation {
     }
     return null;
   }
+  // 4 step strong password Validator.
+  // Strong password must include
+  // 1 Number, 1 lower case, 1 upper case and a special character.
   public static strongPassword(control: FormControl): ValidationErrors {
     const hasError = {
       hasNumberError: true,
@@ -59,6 +57,14 @@ export class PasswordValidation {
       return hasError;
     }
     return null;
+  }
+  public static forbiddenEmails( emails: string[] ) {
+    return (control: FormControl) => {
+      if (emails.indexOf(control.value) !== -1) {
+        return { emailISForbidden: true };
+      }
+      return null;
+    };
   }
 }
 

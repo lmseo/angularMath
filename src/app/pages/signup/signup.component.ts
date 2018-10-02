@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { PasswordValidation } from '../../shared/password-validator.directive';
+import { FormValidatorDirective } from '../../shared/form-validator.directive';
 import {AuthService} from '../../auth/auth.service';
 
 @Component({
@@ -10,22 +10,24 @@ import {AuthService} from '../../auth/auth.service';
 })
 export class SignupComponent implements OnInit {
   signupForm: FormGroup;
+  forbiddenEmails = [];
 
   constructor( private authService: AuthService) { }
 
   ngOnInit() {
     this.signupForm = new FormGroup({
-      'userName': new FormControl('',
+      'email': new FormControl('',
         [
           Validators.required,
           Validators.minLength(1),
-          Validators.email
+          Validators.email,
+          FormValidatorDirective.forbiddenEmails(this.forbiddenEmails)
         ]),
       'password': new FormControl('',
         [
           Validators.required,
           Validators.minLength(6),
-          PasswordValidation.strongPassword
+          FormValidatorDirective.strongPassword
         ]),
       'passwordVerify': new FormControl('',
         [
@@ -33,12 +35,14 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
         ])
     },
-      { validators: PasswordValidation.matchPassword});
+      { validators: FormValidatorDirective.matchPassword});
+    //
+    //
+    // Find last error on error obj and add property last: true to hide hl HTML el
     this.password.statusChanges.subscribe(
       status => {
         if (status) {
           if (this.password.invalid) {
-            // Find last error and add property last: true to hide hl
             const lastError =
               Object.keys(this.password.errors)[Object.keys(this.password.errors).length - 1 ];
             if (typeof this.password.errors[lastError] === 'object') {
@@ -49,6 +53,7 @@ export class SignupComponent implements OnInit {
           }
         }
       });
+    // Find last error on error obj and add property last: true to hide hl HTML el
     this.passwordVerify.statusChanges.subscribe(
       status => {
         if (status) {
@@ -72,18 +77,38 @@ export class SignupComponent implements OnInit {
         }
       });
   }
+  // When the form gets submitted
   onSubmit() {
-    const email = this.userName.value;
+    const email = this.email.value;
     const password = this.password.value;
-    this.authService.signupUser(email, password);
+    this.authService.signupUser(email, password)
+      .catch( error => {
+        console.log(error);
+        console.log(this.signupForm);
+        if ( error.code === 'auth/email-already-in-use' ) {
+          this.forbiddenEmails.push(this.email.value);
+          if (this.email.invalid) {
+            const errors = Object.assign(this.email.errors,
+              { emailISForbidden: true })
+            this.email.setErrors(errors);
+          } else {
+            this.email.setErrors({ emailISForbidden: true }) ;
+          }
+        }
+      });
   }
-  get userName() {
-    return this.signupForm.get('userName');
+  // Use getters for cleaner HTML code
+  // Getter for this.userName
+  get email() {
+    return this.signupForm.get('email');
   }
+  // Getter for this.password
   get password() {
     return this.signupForm.get('password');
   }
+  // Getter for this.passwordVerify
   get passwordVerify() {
     return this.signupForm.get('passwordVerify');
   }
 }
+// {code: "auth/email-already-in-use", message: "The email address is already in use by another account."}

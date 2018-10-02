@@ -6,23 +6,26 @@
         <div class="card-body">
           <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" [ngClass]="{'was-validated': signupForm.valid && (signupForm.dirty || signupForm.touched)}" novalidate>
             <div class="form-group">
-              <label for="username">Email address</label>
+              <label for="email">Email address</label>
               <input
                 type="text"
                 class="form-control"
-                id="username"
-                formControlName="userName"
+                id="email"
+                formControlName="email"
                 autocomplete="email"
-                [ngClass]="{'is-valid': userName.valid}"
+                [ngClass]="{'is-valid': email.valid, 'input-alert-top':email.errors && (email.dirty || email.touched)}"
                 placeholder="your@email.com"
               >
-              <div *ngIf="((userName.dirty || userName.touched))">
-                <div *ngIf="(userName.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
-                  <div *ngIf="userName.errors.required">
+              <div *ngIf="((email.dirty || email.touched))">
+                <div *ngIf="(email.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                  <div *ngIf="email.errors.required">
                     Email is required.
                   </div>
-                  <div *ngIf="userName.errors.email">
+                  <div *ngIf="email.errors.email">
                     Email is not properly formatted.
+                  </div>
+                  <div *ngIf="email.errors.emailISForbidden">
+                    The email address is not allowed.
                   </div>
                 </div>
                 <ng-template #isValid>
