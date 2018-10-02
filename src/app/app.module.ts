@@ -15,8 +15,8 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import {AppRoutingModule} from './app-routing.module';
 import { SourceComponent } from './pages/work/source/source.component';
 import {AuthGuardService} from './auth-guard.service';
-import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 import {WorkModule} from './pages/work/work.module';
 import {AuthService} from './auth/auth.service';
 

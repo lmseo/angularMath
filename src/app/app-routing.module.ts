@@ -5,8 +5,8 @@ import {HomeComponent} from './pages/home/home.component';
 import {AboutComponent} from './pages/about/about.component';
 import {ContactComponent} from './pages/contact/contact.component';
 import {PageNotFoundComponent} from './pages/page-not-found/page-not-found.component';
-import {LoginComponent} from './pages/login/login.component';
-import {SignupComponent} from './pages/signup/signup.component';
+import {LoginComponent} from './auth/login/login.component';
+import {SignupComponent} from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },

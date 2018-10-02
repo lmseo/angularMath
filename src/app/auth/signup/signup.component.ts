@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormValidatorDirective } from '../../shared/form-validator.directive';
-import {AuthService} from '../../auth/auth.service';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-signup',
