@@ -5,8 +5,8 @@ import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './core/header/header.component';
+import { FooterComponent } from './core/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PagesComponent } from './pages/pages.component';
 import { AboutComponent } from './pages/about/about.component';

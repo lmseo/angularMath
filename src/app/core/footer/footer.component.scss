@@ -1,0 +1,28 @@
+@import '../../../scss/variables';
+@import '../../../scss/mixins';
+
+// Core variables and mixins
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+@import "../../../../node_modules/bootstrap/scss/mixins";
+
+@import '../../../../node_modules/bootstrap/scss/utilities';
+
+
+footer{
+  background-color: $footer-bg;
+  font-size: .85rem;
+}
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+svg{
+  fill: $white;
+  margin: 0 10px;
+  transition: all .25s;
+  &:hover{
+    fill: $primary;
+  }
+}
