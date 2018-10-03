@@ -2,25 +2,103 @@
   <div class="row">
     <div class="col-4 offset-4 mt-10 mb-10">
       <div class="card text-dark">
-        <h5 class="card-header text-center">Sign in to AngularMath</h5>
-        <div class="card-body">
-          <form>
-            <div class="form-group">
-              <label for="exampleInputEmail1" class="font-weight-bold pl-2">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1" class="font-weight-bold pl-2">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-group form-check d-none">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label form-text text-muted" for="exampleCheck1"><small>Check me out</small></label>
-            </div>
-            <button type="submit" class="btn btn-primary" (click)="onLogin()">Sign in</button>
-          </form>
+        <div *ngIf="!authService.isAuthenticated(); else loggedIn">
+          <h5 class="card-header text-center">Sign in to AngularMath</h5>
+          <div class="card-body">
+            <form
+              (submit)="onSubmit()"
+              [formGroup]="signInForm"
+              [ngClass]="{'was-validated': signInForm.valid && (signInForm.dirty || signInForm.touched)}"
+
+              novalidate
+            >
+              <div class="form-group">
+                <label for="exampleInputEmail1" class="font-weight-bold pl-2">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  formControlName="email"
+                  placeholder="Enter email"
+                  autocomplete="email"
+                  [ngClass]="{'is-valid':email.valid, 'input-alert-top':email.errors && (email.dirty || email.touched)}"
+                >
+                <div *ngIf="((email.dirty || email.touched))">
+                  <div *ngIf="(email.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                    <div *ngIf="email.errors.required">
+                      Email is required.
+                    </div>
+                    <div *ngIf="email.errors.email">
+                      Email is not properly formatted.
+                    </div>
+                  </div>
+                  <ng-template #isValid>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                  </ng-template>
+                </div>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1" class="font-weight-bold pl-2">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="exampleInputPassword1"
+                  placeholder="Password"
+                  formControlName="password"
+                  autocomplete="new-password"
+                  [ngClass]="{'is-valid': password.valid, 'input-alert-top':password.errors && (password.dirty || password.touched)}"
+                >
+                <div *ngIf="((password.dirty || password.touched))">
+                  <div *ngIf="(password.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
+                    <div *ngIf="password.errors.required">
+                      Password is required.
+                    </div>
+                    <div *ngIf="password.errors.minlength">
+                      Password must be at least {{password.errors.minlength.requiredLength}} characters long.
+                      <hr [ngClass]="{'d-none': password.errors.minlength.last}">
+                    </div>
+                    <div *ngIf="password.errors.hasNumberError">
+                      Password must contain a number.
+                      <hr [ngClass]="{'d-none': password.errors.hasNumberError.last}">
+                    </div>
+                    <div *ngIf="password.errors.hasUpperCharError">
+                      Password must contain an upper case letter.
+                      <hr [ngClass]="{'d-none': password.errors.hasUpperCharError.last}">
+                    </div>
+                    <div *ngIf="password.errors['hasLowerCharError']">
+                      Password must contain a lower case letter.
+                      <hr [ngClass]="{'d-none': password.errors.hasLowerCharError.last}">
+                    </div>
+                    <div *ngIf="password.errors.hasSpecCharError">
+                      Password must contain a special character (e.g, !@#$%^&).
+                    </div>
+                  </div>
+                  <ng-template #isValid>
+                    <div class="valid-feedback">
+                      Looks good!
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="form-group form-check d-none">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label form-text text-muted" for="exampleCheck1"><small>Check me out</small></label>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="signInForm.invalid" >Sign in</button>
+              <div *ngIf="errorForm" class="alert alert-primary mt-3">{{errorForm}}</div>
+            </form>
+          </div>
         </div>
+        <ng-template #loggedIn>
+          <h5 class="card-header text-center">Logged In</h5>
+          <div class="card-body">
+            You are Logged in
+          </div>
+        </ng-template>
       </div>
     </div>
   </div>
