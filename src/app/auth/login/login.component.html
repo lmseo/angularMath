@@ -2,14 +2,20 @@
   <div class="row">
     <div class="col-4 offset-4 mt-10 mb-10">
       <div class="card text-dark">
-        <div *ngIf="!authService.isAuthenticated(); else loggedIn">
+        {{!(isLoggedIn? (isLoggedIn | async): false )}}
+        <div *ngIf="isLoggedIn | async">
+          <h5 class="card-header text-center">Logged In</h5>
+          <div class="card-body">
+            You are Logged in
+          </div>
+        </div>
+        <div *ngIf="!(isLoggedIn | async)">
           <h5 class="card-header text-center">Sign in to AngularMath</h5>
           <div class="card-body">
             <form
               (submit)="onSubmit()"
               [formGroup]="signInForm"
               [ngClass]="{'was-validated': signInForm.valid && (signInForm.dirty || signInForm.touched)}"
-
               novalidate
             >
               <div class="form-group">
@@ -26,10 +32,10 @@
                 >
                 <div *ngIf="((email.dirty || email.touched))">
                   <div *ngIf="(email.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
-                    <div *ngIf="email.errors.required">
+                    <div *ngIf="email['errors'].required">
                       Email is required.
                     </div>
-                    <div *ngIf="email.errors.email">
+                    <div *ngIf="email['errors'].email">
                       Email is not properly formatted.
                     </div>
                   </div>
@@ -54,26 +60,26 @@
                 >
                 <div *ngIf="((password.dirty || password.touched))">
                   <div *ngIf="(password.invalid); else isValid" class="alert alert-danger alert-bottom-form text-small pb-3">
-                    <div *ngIf="password.errors.required">
+                    <div *ngIf="password['errors'].required">
                       Password is required.
                     </div>
-                    <div *ngIf="password.errors.minlength">
-                      Password must be at least {{password.errors.minlength.requiredLength}} characters long.
-                      <hr [ngClass]="{'d-none': password.errors.minlength.last}">
+                    <div *ngIf="password['errors'].minlength">
+                      Password must be at least {{password['errors'].minlength.requiredLength}} characters long.
+                      <hr [ngClass]="{'d-none': password['errors'].minlength.last}">
                     </div>
-                    <div *ngIf="password.errors.hasNumberError">
+                    <div *ngIf="password['errors'].hasNumberError">
                       Password must contain a number.
-                      <hr [ngClass]="{'d-none': password.errors.hasNumberError.last}">
+                      <hr [ngClass]="{'d-none': password['errors'].hasNumberError.last}">
                     </div>
-                    <div *ngIf="password.errors.hasUpperCharError">
+                    <div *ngIf="password['errors'].hasUpperCharError">
                       Password must contain an upper case letter.
-                      <hr [ngClass]="{'d-none': password.errors.hasUpperCharError.last}">
+                      <hr [ngClass]="{'d-none': password['errors'].hasUpperCharError.last}">
                     </div>
-                    <div *ngIf="password.errors['hasLowerCharError']">
+                    <div *ngIf="password['errors']['hasLowerCharError']">
                       Password must contain a lower case letter.
-                      <hr [ngClass]="{'d-none': password.errors.hasLowerCharError.last}">
+                      <hr [ngClass]="{'d-none': password['errors'].hasLowerCharError.last}">
                     </div>
-                    <div *ngIf="password.errors.hasSpecCharError">
+                    <div *ngIf="password['errors'].hasSpecCharError">
                       Password must contain a special character (e.g, !@#$%^&).
                     </div>
                   </div>
@@ -93,12 +99,6 @@
             </form>
           </div>
         </div>
-        <ng-template #loggedIn>
-          <h5 class="card-header text-center">Logged In</h5>
-          <div class="card-body">
-            You are Logged in
-          </div>
-        </ng-template>
       </div>
     </div>
   </div>

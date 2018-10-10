@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -13,13 +14,19 @@ import {FormValidatorDirective} from '../../shared/form-validator.directive';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   signInForm: FormGroup;
   errorForm = '';
+  subscription;
+  isLoggedIn;
 
   constructor( private authService: AuthService, private router: Router ) { }
+  ngOnDestroy() {
+
+  }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.tokenChanged;
     this.signInForm = new FormGroup({
       'email': new FormControl('', [
         Validators.required,
@@ -51,14 +58,13 @@ export class LoginComponent implements OnInit {
     const email = this.email.value;
     const password = this.password.value;
     this.authService.signinUser( email, password )
-      .catch( error => {
-        if ( error.code === 'auth/wrong-password') {
+      .then(response => {
+        // console.log(error.code);
+        if ( response.code === 'auth/wrong-password') {
           this.errorForm = 'The email or password you have entered is incorrect';
         }
+        this.authService.logout();
       });
-  }
-  onLogout() {
-
   }
   get email() {
     return this.signInForm.get('email');

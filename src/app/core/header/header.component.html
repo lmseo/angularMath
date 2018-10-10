@@ -15,15 +15,20 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/contact">Contact</a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/login">Login</a>
+        <li class="nav-item" *ngIf="isLoggedIn | async">
+          <a class="nav-link c-pointer" (click)="onLogout()">Sign out</a>
         </li>
-        <li class="nav-item">
-          <span class="text-white-50">or</span>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/join">Sign up</a>
-        </li>
+        <ng-template [ngIf]="!(isLoggedIn | async)">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <span class="text-white-50">or</span>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/join">Sign up</a>
+          </li>
+        </ng-template>
       </ul>
     </div>
   </nav>
