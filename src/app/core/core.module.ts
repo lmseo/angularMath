@@ -5,6 +5,8 @@ import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import {AppRoutingModule} from '../app-routing.module';
 import {HomeComponent} from './home/home.component';
+import {AuthGuardService} from '../auth-guard.service';
+import {AuthService} from '../auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import {HomeComponent} from './home/home.component';
     CommonModule,
     AppRoutingModule,
   ],
+  providers: [ AuthGuardService, AuthService ],
   exports: [
     HeaderComponent,
     FooterComponent,

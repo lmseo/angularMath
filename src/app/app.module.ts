@@ -34,7 +34,6 @@ import {CoreModule} from './core/core.module';
     AuthModule,
     CoreModule,
   ],
-  providers: [ AuthGuardService, AuthService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
