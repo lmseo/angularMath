@@ -4,7 +4,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -15,10 +15,9 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import {AppRoutingModule} from './app-routing.module';
 import { SourceComponent } from './pages/work/source/source.component';
 import {AuthGuardService} from './auth-guard.service';
-import { LoginComponent } from './auth/login/login.component';
-import { SignupComponent } from './auth/signup/signup.component';
 import {WorkModule} from './pages/work/work.module';
 import {AuthService} from './auth/auth.service';
+import {AuthModule} from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -31,15 +30,14 @@ import {AuthService} from './auth/auth.service';
     ContactComponent,
     PageNotFoundComponent,
     SourceComponent,
-    LoginComponent,
-    SignupComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
+    FormsModule,
     WorkModule,
+    AuthModule,
     AppRoutingModule,
   ],
   providers: [ AuthGuardService, AuthService ],

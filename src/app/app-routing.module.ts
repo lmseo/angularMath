@@ -10,8 +10,6 @@ import {SignupComponent} from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'join', component: SignupComponent},
   { path: 'about', component: AboutComponent},
   { path: 'contact', component: ContactComponent},
   { path: 'not-found', component: PageNotFoundComponent },

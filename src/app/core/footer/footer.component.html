@@ -68,13 +68,28 @@
     </div>
     <div class="col-md-4">
       <h4 class="mb-5">Newsletter</h4>
-      <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8" class="mb-3">
-        <input type="hidden" name="form_type" value="customer">
-        <input type="hidden" name="utf8" value="✓">
-        <div class="">
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <input type="email" value="" placeholder="Email Address" name="contact[email]" id="Email" aria-label="Email Address" autocorrect="off" autocapitalize="off">
-          <input type="submit" name="commit" class="tn btn-primary" id="Subscribe" value="Sign up">
+      <form
+        id="contact_form"
+        class="mb-3"
+      >
+        <div class="form-group">
+          <input
+            type="email"
+            value=""
+            placeholder="Email Address"
+            name="contact[email]"
+            id="Email"
+            aria-label="Email Address"
+            autocorrect="off"
+            autocapitalize="off"
+          >
+          <input
+            type="submit"
+            name="commit"
+            class="tn btn-primary"
+            id="Subscribe"
+            value="Sign up"
+          >
         </div>
       </form>
       <p class="">Let's be best mates. Sign up for our newsletter, never miss a thing.</p>
