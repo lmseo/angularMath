@@ -8,7 +8,7 @@ import {DateTimeComponent} from './date-time/date-time.component';
 import {SourceComponent} from './source/source.component';
 
 const diceRoutes: Routes = [
-  { path: 'work', children: [
+  { path: '', children: [
       { path: '', component: WorkComponent, pathMatch: 'full'},
       { path: 'math', children: [
           {path: '', component: MathComponent },

@@ -9,15 +9,17 @@ import {CryptographyComponent} from './cryptography/cryptography.component';
 import {EncodingComponent} from './encoding/encoding.component';
 import {DiceModule} from './math/dice/dice.module';
 import {WorkRoutingModule} from './work-routing.module';
+import {SourceComponent} from './source/source.component';
 
 @NgModule({
   declarations: [
-    MathComponent,
     WorkComponent,
+    MathComponent,
     DateTimeComponent,
     AlgorithmsComponent,
     CryptographyComponent,
     EncodingComponent,
+    SourceComponent,
   ],
   imports: [
     CommonModule,

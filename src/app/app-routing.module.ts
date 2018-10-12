@@ -10,9 +10,7 @@ import {SignupComponent} from './auth/signup/signup.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent},
-  { path: 'contact', component: ContactComponent},
-  { path: 'not-found', component: PageNotFoundComponent },
+  { path: 'work', loadChildren: './pages/work/work.module#WorkModule'},
   { path: '**', redirectTo: '/not-found' }
 ];
 @NgModule({
