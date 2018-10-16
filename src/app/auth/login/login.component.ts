@@ -1,13 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
-
-import * as firebase from 'firebase/app';
-import 'firebase/auth';
 
 import {AuthService} from '../auth.service';
 import {FormValidatorDirective} from '../../shared/form-validator.directive';
+import {AuthInfo} from '../auth-info';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +14,22 @@ import {FormValidatorDirective} from '../../shared/form-validator.directive';
 export class LoginComponent implements OnInit, OnDestroy {
   signInForm: FormGroup;
   errorForm = '';
-  subscription;
-  isLoggedIn;
+  authInfo: AuthInfo;
 
-  constructor( private authService: AuthService, private router: Router ) { }
-  ngOnDestroy() {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
-  }
+  ngOnDestroy() {}
 
   ngOnInit() {
-    this.isLoggedIn = this.authService.tokenChanged;
+    // this.isLoggedIn = this.authService.tokenChanged;
+    this.authService.authInfo$.subscribe(
+      authInfo =>  {
+      this.authInfo = authInfo;
+      console.log(this.authInfo.isLoggedIn());
+    });
     this.signInForm = new FormGroup({
       'email': new FormControl('', [
         Validators.required,
@@ -54,17 +57,29 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
   }
-  onSubmit() {
+  onLogin() {
     const email = this.email.value;
     const password = this.password.value;
-    this.authService.signinUser( email, password )
-      .then(response => {
-        // console.log(error.code);
-        if ( response.code === 'auth/wrong-password') {
-          this.errorForm = 'The email or password you have entered is incorrect';
+    this.authService.login(email, password)
+      .subscribe(
+        (resp) => {
+          // this.router.navigate(['/']);
+        },
+        (error) => {
+          console.log(error);
+          if ( error.code === 'auth/wrong-password') {
+            this.errorForm = 'The email or password you have entered is incorrect';
+          }
         }
-        this.authService.logout();
-      });
+      );
+    // this.authService.signinUser( email, password )
+    //   .then(response => {
+    //     // console.log(error.code);
+    //     if ( response.code === 'auth/wrong-password') {
+    //       this.errorForm = 'The email or password you have entered is incorrect';
+    //     }
+    //     this.authService.logout();
+    //   });
   }
   get email() {
     return this.signInForm.get('email');

@@ -81,8 +81,12 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     const email = this.email.value;
     const password = this.password.value;
-    this.authService.signupUser(email, password)
-      .catch( error => {
+    this.authService.signUp(email, password)
+      .subscribe(
+        resp => {
+          console.log(resp);
+        },
+        error => {
         if ( error.code === 'auth/email-already-in-use' ) {
           this.forbiddenEmails.push(this.email.value);
           if (this.email.invalid) {

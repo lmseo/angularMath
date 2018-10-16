@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-
-import {AuthService} from '../../auth/auth.service';
-import * as firebase from 'firebase/app';
 import 'firebase/auth';
+
+import {AuthInfo} from '../../auth/auth-info';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -10,23 +10,24 @@ import 'firebase/auth';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  token = '';
-  isLoggedIn = null;
-   subscription;
+  authInfo: AuthInfo;
 
   constructor( private authService: AuthService) {}
 
   ngOnInit() {
     // console.log(this.authService.isLoggedIn());
     // this.isLoggedIn = this.authService.isLoggedIn();
-    this.isLoggedIn = this.authService.tokenChanged;
+    // this.isLoggedIn = this.authService.tokenChanged;
+    this.authService.authInfo$.subscribe(authInfo =>  {
+      this.authInfo = authInfo;
+      // console.log(this.authInfo);
+
+    });
   }
 
   onLogout() {
     this.authService.logout();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  ngOnDestroy() {}
 }
