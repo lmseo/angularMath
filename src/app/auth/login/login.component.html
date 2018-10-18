@@ -2,18 +2,17 @@
   <div class="row">
     <div class="col-4 offset-4 mt-10 mb-10">
       <div class="card text-dark">
-        {{!(isLoggedIn? (isLoggedIn | async): false )}}
-        <div *ngIf="isLoggedIn | async">
+        <div *ngIf="authInfo?.isLoggedIn()">
           <h5 class="card-header text-center">Logged In</h5>
           <div class="card-body">
             You are Logged in
           </div>
         </div>
-        <div *ngIf="!(isLoggedIn | async)">
+        <div *ngIf="!authInfo?.isLoggedIn()">
           <h5 class="card-header text-center">Sign in to AngularMath</h5>
           <div class="card-body">
             <form
-              (submit)="onSubmit()"
+              (submit)="onLogin()"
               [formGroup]="signInForm"
               [ngClass]="{'was-validated': signInForm.valid && (signInForm.dirty || signInForm.touched)}"
               novalidate
