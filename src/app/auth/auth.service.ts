@@ -1,12 +1,9 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { Observable} from 'rxjs';
+import { Subject ,  Observable} from 'rxjs';
 import {AngularFireAuth} from '@angular/fire/auth';
 
 import {AuthInfo} from './auth-info';
-
-
 
 @Injectable()
 export class AuthService {
