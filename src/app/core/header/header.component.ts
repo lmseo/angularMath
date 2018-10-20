@@ -9,15 +9,12 @@ import {AuthService} from '../../auth/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
   authInfo: AuthInfo;
 
   constructor( private authService: AuthService) {}
 
   ngOnInit() {
-    // console.log(this.authService.isLoggedIn());
-    // this.isLoggedIn = this.authService.isLoggedIn();
-    // this.isLoggedIn = this.authService.tokenChanged;
     this.authService.authInfo$.subscribe(authInfo =>  {
       this.authInfo = authInfo;
       // console.log(this.authInfo);
@@ -28,6 +25,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogout() {
     this.authService.logout();
   }
-
-  ngOnDestroy() {}
 }

@@ -2,10 +2,9 @@ import {Observable} from 'rxjs';
 
 export class AuthInfo {
 
-  constructor(public $uid: string) {}
+  constructor(public _uid: string) {}
 
   isLoggedIn() {
-    return !!this.$uid;
+    return !!this._uid;
   }
-
 }

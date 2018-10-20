@@ -11,7 +11,7 @@ import {AuthInfo} from '../auth-info';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   signInForm: FormGroup;
   errorForm = '';
   authInfo: AuthInfo;
@@ -21,15 +21,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router
   ) { }
 
-  ngOnDestroy() {}
-
   ngOnInit() {
-    // this.isLoggedIn = this.authService.tokenChanged;
     this.authService.authInfo$.subscribe(
       authInfo =>  {
-      this.authInfo = authInfo;
-      console.log(this.authInfo.isLoggedIn());
-    });
+        this.authInfo = authInfo;
+        console.log(this.authInfo.isLoggedIn());
+      });
     this.signInForm = new FormGroup({
       'email': new FormControl('', [
         Validators.required,
@@ -62,24 +59,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     const password = this.password.value;
     this.authService.login(email, password)
       .subscribe(
-        (resp) => {
+        () => {
           // this.router.navigate(['/']);
         },
         (error) => {
-          console.log(error);
           if ( error.code === 'auth/wrong-password') {
             this.errorForm = 'The email or password you have entered is incorrect';
           }
         }
       );
-    // this.authService.signinUser( email, password )
-    //   .then(response => {
-    //     // console.log(error.code);
-    //     if ( response.code === 'auth/wrong-password') {
-    //       this.errorForm = 'The email or password you have entered is incorrect';
-    //     }
-    //     this.authService.logout();
-    //   });
   }
   get email() {
     return this.signInForm.get('email');

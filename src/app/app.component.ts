@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as firebase from 'firebase/app';
-import {environment} from '../environments/environment';
+
 import {AuthService} from './auth/auth.service';
 import {AuthInfo} from './auth/auth-info';
+import {Unsubscribe} from 'firebase';
 import {Subscription} from 'rxjs';
 
 
@@ -16,18 +16,17 @@ export class AppComponent implements OnInit, OnDestroy {
   authUnsub: Subscription;
   private authInfo: AuthInfo;
 
-  constructor( private authService: AuthService ) {}
+  constructor( public authService: AuthService ) {}
 
   ngOnInit() {
-   // this.authService.initilize(environment.firebase);
-   // this.authUnsub = this.authService.authChange_$();
-   //  this.authService.authChange$();
-    this.authService.authInfo$.subscribe(authInfo =>  {
-      console.log(authInfo)
-      this.authInfo = authInfo;
-      // console.log(this.authInfo);
-    });
+    this.authService.authChange$();
+    this.authUnsub = this.authService.authInfo$.subscribe(
+        authInfo =>  {
+          // console.log(authInfo.isLoggedIn());
+        });
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.authUnsub.unsubscribe();
+  }
 }
