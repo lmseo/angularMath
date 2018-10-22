@@ -14,7 +14,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
     AppComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'angular-math'}),
     AuthModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
