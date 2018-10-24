@@ -8,6 +8,7 @@ import {PagesModule} from './pages/pages.module';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
     AngularFireAuthModule,
     PagesModule,
     CoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   bootstrap: [AppComponent]
 })
